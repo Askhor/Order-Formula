@@ -1,0 +1,177 @@
+\documentclass{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage{unicode-helper}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{microtype}
+\usepackage{tikz-cd}
+\usepackage[english]{babel}
+\usepackage{amsthm}
+\usepackage{mathtools}
+\usepackage[pdftex]{hyperref}
+\usepackage{cleveref}
+
+\newcommand{\titlevar}{Order Formula and its Applications}
+\newcommand{\authorvar}{Günthner}
+\newcommand{\datevar}{Winter 2024}
+\title{\titlevar}
+\author{\authorvar}
+\date{\datevar}
+\hypersetup{
+	pdftitle=\titlevar,
+	pdfauthor=\authorvar,
+	pdfcreationdate=\datevar,
+}
+\setlength{\parindent}{0pt}
+
+\newcommand{\card}[1]{\#{#1}}
+\newcommand{\inv}{^{-1}}
+\newcommand{\ringunits}[1]{{#1}^{\times}}
+\newcommand{\ordadd}[1]{\ord_{ℤ/{#1}ℤ}}
+\newcommand{\ordmult}[1]{\ord_{\ringunits{ℤ/{#1}ℤ}}}
+\newcommand{\frakB}{\mathfrak{B}}
+\newcommand{\frakc}{\mathfrak{c}}
+\newcommand{\bigbarn}[1]{\Big({#1}\Big)}
+\newcommand{\pospart}[1]{ {\bigbarn{#1}} _ {\mathclap +} }
+\DeclareMathOperator{\ord}{ord}
+\DeclareMathOperator{\lcm}{lcm}
+\newenvironment{pg}{
+
+}{\medskip}
+
+\newtheorem{definition}{Definition}
+\newtheorem{lemma}{Lemma}
+
+\crefname{lemma}{Lemma}{Lemmata}
+\crefname{equation}{equation}{equations}
+
+\begin{document}
+	\maketitle
+	
+	\section{Introduction}
+	
+	\begin{pg}
+		In this paper we will be examining the following formula:
+		\begin{equation*}
+			\ord_{ℤ/p^kℤ}(n) = \ord_{ℤ/pℤ}(n) · p^{\max(0, k - k_p(n))}
+		\end{equation*}
+	\end{pg}
+	
+	\section{Proving the Order Formula}
+	
+	\subsection{Examining Simpler Groups}
+	\begin{pg}
+		We would like to simply the order in one of the multiplicative groups by recursively examining smaller and smaller subgroups. For this we should first find a recursion formula for the order in groups depending on that in a smaller group.
+	\end{pg}
+	\begin{pg}
+		Let $p$ be prime, $k ϵ ℕ$. Now let $n ϵ ℤ/p^{k+1}ℤ$ be an arbitrary element, we are interested in the following value:
+		\begin{equation}\label{eq:1}
+			\frac{\ordadd{p^{k+1}}(n)}{\ordadd{p^k}(n \bmod p^k)}
+		\end{equation}
+		the change of the order.
+	\end{pg}
+	
+	\begin{pg}
+		First we shall simplify the order in the quite simple group $ℤ/xℤ$:
+		\begin{lemma}\label{lemma:1}
+			\begin{equation*}
+				\ordadd{x}(n) = \frac{x}{\gcd(x, n)}
+			\end{equation*}
+		\end{lemma}
+		\begin{proof}
+			We would like to show that for $t ϵ  ℕ$
+			\begin{equation*}
+				t · l \equiv 0 \pmod x ⇔ x \mid tl ⇔ \frac{x}{\gcd(x, l)} \mid t
+			\end{equation*}
+			Assume that $\frac{x}{\gcd(x, l)} \mid t$, meaning that $t = \frac{x}{\gcd(x, l)} · \square$ with $\square$ denoting an unimportant value.
+			Let us examine
+			\begin{equation*}
+				\frac{x · l}{\gcd(x, l)} = \lcm(x, l) \equiv 0 \pmod{x}
+			\end{equation*}
+			Now assume instead that $x \mid tl$:
+			\begin{equation*}
+				\frac{x}{\gcd(x, l)} \gcd(x, l) \mid tl
+			\end{equation*}
+			But since already $\gcd(x, l) \mid l$ and also $\frac{x}{\gcd(x, l)}$ and $l$ are coprime, it must be that
+			\begin{equation*}
+				\frac{x}{\gcd(x, l)} \mid t
+			\end{equation*}
+		\end{proof}
+	\end{pg}
+	\begin{pg}
+		Using \cref{lemma:1} we find the following formula:
+		\begin{equation*}
+			\begin{split}
+				\ordadd{p^k}(n) &= \frac{p^k}{\gcd(p^k,n)} = p^{k - \min(k, ν_p(n))} \\
+				&= p^{k + \max(-k, -ν_p(n))} = p^{\max(0, k-ν_p(n))}
+			\end{split}
+		\end{equation*}
+		Now let us apply that to \cref{eq:1}:
+		\begin{equation*}
+			\begin{split}
+				\frac{\ordadd{p^{k+1}}(n)}{\ordadd{p^k}(n \bmod p^k)} 
+				&=
+				\frac{p^{\max(0, k+1-ν_p(n))}}
+				{p^{\max(0, k-ν_p(n \bmod p^k))}} \\
+				&=
+				p^{\max(0, k+1-ν_p(n)) - \max(0,k-ν_p(n \bmod p^k))} \\
+				&\eqcolon p^\frakc
+			\end{split}
+		\end{equation*}
+	\end{pg}
+	\begin{pg}
+		If we write $n \eqcolon m + rp^k$, $m<p^k$, $r<p$ and $\max(0, x) \eqcolon x_+$ we can rewrite the formula for $\frakc$ like so:
+		\begin{equation*}
+			\begin{split}
+				\frakc &= {\max(0, k+1-ν_p(n)) - \max(0,k-ν_p(n \bmod p^k))} \\
+				&= \pospart{k+1-ν_p(m+rp^k)} - \pospart{k-ν_p(m)}
+			\end{split}
+		\end{equation*}
+	\end{pg}
+	\begin{pg}
+		For the values of $\frakc$ we find the following table:
+		\begin{center}
+			\begin{tabular}{c|cc}
+				& $r=0$ & $r≠0$ \\
+				\hline
+				$m=0$ & $0$ & $1$ \\
+				$m≠0$ & $1$ & $1$ \\
+			\end{tabular}
+		\end{center}
+		\begin{proof}[Proof for $m=0$ and $r=0$]
+			\begin{equation*}
+				\begin{split}
+					\frakc &= \pospart{k+1-ν_p(0+0)} - \pospart{k-ν_p(0)} \\
+					&= \pospart{k+1-∞} - \pospart{k-∞} = 0 - 0 = 0
+				\end{split}
+			\end{equation*}
+		\end{proof}
+		\begin{proof}[Proof for $m=0$ and $r≠0$]
+			\begin{equation*}
+				\begin{split}
+					\frakc &= \pospart{k+1-ν_p(rp^k)} - \pospart{k-ν_p(m)} \\
+					&= \pospart{k+1-k} - 0 = 1
+				\end{split}
+			\end{equation*}
+		\end{proof}
+		\begin{proof}[Proof for $m≠0$]
+			\begin{equation*}
+				\begin{split}
+					\frakc &= \pospart{k+1-ν_p(m+rp^k)} - \pospart{k-ν_p(m)} \\
+					&= \pospart{k+1-ν_p(m)} - \pospart{k-ν_p(m)} \\
+					&= \bigbarn{k+1-ν_p(m)} - \bigbarn{k-ν_p(m)}
+					= 1
+				\end{split}
+			\end{equation*}
+			Here we are using that
+			\begin{equation*}
+				ν_p(a) < ν_p(b) ⇒ ν_p(a+b) = ν_p(a)
+			\end{equation*}
+			and that
+			\begin{equation*}
+				0 < a < p^k ⇒ ν_p(a) < k
+			\end{equation*}
+		\end{proof}
+	\end{pg}
+\end{document}

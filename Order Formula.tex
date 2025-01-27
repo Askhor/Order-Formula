@@ -9,6 +9,7 @@
 \usepackage[english]{babel}
 \usepackage{amsthm}
 \usepackage{mathtools}
+\usepackage{braket}
 \usepackage[pdftex]{hyperref}
 \usepackage{cleveref}
 
@@ -27,14 +28,16 @@
 
 \newcommand{\card}[1]{\#{#1}}
 \newcommand{\inv}{^{-1}}
-\newcommand{\ringunits}[1]{{#1}^{\times}}
-\newcommand{\ordadd}[1]{\ord_{ℤ/{#1}ℤ}}
-\newcommand{\ordmult}[1]{\ord_{\ringunits{ℤ/{#1}ℤ}}}
+\newcommand{\ringunits}[1]{{#1}^{\mathclap{\rule{2.5pt}{0pt}\times}}}
+\newcommand{\ringunitsb}[1]{\ringunits{\left(#1\right)}}
+\newcommand{\ordadd}[1]{\ord_{\mathclap{ℤ/{#1}ℤ}}}
+\newcommand{\ordmult}[1]{\ord_{\rule{0pt}{8pt}{\mathclap{\ringunitsb{ℤ/{#1}ℤ}}}}}
 \newcommand{\frakB}{\mathfrak{B}}
 \newcommand{\frakc}{\mathfrak{c}}
 \newcommand{\bigbarn}[1]{\Big({#1}\Big)}
 \newcommand{\pospart}[1]{ {\bigbarn{#1}} _ {\mathclap +} }
-\DeclareMathOperator{\ord}{ord}
+\DeclareMathOperator{\ordb}{ord}
+\newcommand{\ord}{\mathop{\ordb}\limits}
 \DeclareMathOperator{\lcm}{lcm}
 \newenvironment{pg}{
 
@@ -52,9 +55,52 @@
 	\section{Introduction}
 	
 	\begin{pg}
-		In this paper we will be examining the following formula:
+		In this paper we will be examining the following order formula:
 		\begin{equation*}
-			\ord_{ℤ/p^kℤ}(n) = \ord_{ℤ/pℤ}(n) · p^{\max(0, k - k_p(n))}
+			\ordmult{p^k}(n) = \ordmult{p}(n) · p^{\max(0, k - k_p(n))}
+		\end{equation*}
+		for $p$ and odd prime, $k$ a natural number and $k_p(n)$ a special function.
+	\end{pg}
+	
+	\section{Notes about the proof}
+	
+	\begin{pg}
+		
+		\begin{equation*}
+			Ψ_l(n) \coloneq \ordmult{l}(n)
+		\end{equation*}
+		
+		\begin{equation*}
+			n^{Ψ_{p^k}(n)} = 1 \pmod{p^k}
+		\end{equation*}
+		\begin{equation*}
+			n^{Ψ_{p^k}(n)} = 1 \pmod{p}
+		\end{equation*}
+		Meaning that $Ψ_p(n) \mid Ψ_{p^k}(n)$.
+	\end{pg}
+	\begin{pg}
+		We know that
+		\begin{equation*}
+			\ringunitsb{ℤ/p^kℤ} \cong \bigbarn{ℤ/(p-1)ℤ} \oplus \bigbarn{ℤ/p^{k-1}ℤ}
+		\end{equation*}
+		Now let
+		\begin{equation*}
+			π: \ringunitsb{ℤ/p^kℤ} → \ringunitsb{ℤ/pℤ}
+		\end{equation*}
+		\begin{equation*}
+			π(x) = x \pmod p
+		\end{equation*}
+		Now about the kernel we know (a subgroup!):
+		\begin{equation*}
+			\ker π = \set{ x ϵ \ringunitsb{ℤ/p^kℤ} \ : \ x = 1 \pmod p }
+		\end{equation*}
+		Now since bullshit we get:
+		\begin{equation*}
+			\ringunitsb{ℤ/p^kℤ} / \ker π \cong \ringunitsb{ℤ/pℤ}
+		\end{equation*}
+		and 
+		\begin{equation*}
+			\ker π \cong ℤ/p^{k-1}ℤ
 		\end{equation*}
 	\end{pg}
 	

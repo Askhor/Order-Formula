@@ -10,6 +10,7 @@
 \usepackage{amsthm}
 \usepackage{mathtools}
 \usepackage{braket}
+\usepackage[backend=biber,style=numeric]{biblatex}
 \usepackage[pdftex]{hyperref}
 \usepackage{cleveref}
 
@@ -28,9 +29,10 @@
 
 \newcommand{\card}[1]{\#{#1}}
 \newcommand{\inv}{^{-1}}
-\newcommand{\ringunits}[1]{{#1}^{\mathclap{\rule{2.5pt}{0pt}\times}}}
+\newcommand{\ringunits}[1]{{#1}^{\mathclap{\rule{2.5pt}{0pt}\times}\rule{0.2em}{0pt}}}
 \newcommand{\ringunitsb}[1]{\ringunits{\left(#1\right)}}
-\newcommand{\ordadd}[1]{\ord_{\mathclap{ℤ/{#1}ℤ}}}
+\newcommand{\ordgroup}[1]{\ord_{\rule{0pt}{8pt}\mathclap{#1}}}
+\newcommand{\ordadd}[1]{\ordgroup{ℤ/{#1}ℤ}}
 \newcommand{\ordmult}[1]{\ord_{\rule{0pt}{8pt}{\mathclap{\ringunitsb{ℤ/{#1}ℤ}}}}}
 \newcommand{\frakB}{\mathfrak{B}}
 \newcommand{\frakc}{\mathfrak{c}}
@@ -45,12 +47,18 @@
 
 \newtheorem{definition}{Definition}
 \newtheorem{lemma}{Lemma}
+\newsavebox{\proveLemmaThree}
 
 \crefname{lemma}{Lemma}{Lemmata}
 \crefname{equation}{equation}{equations}
 
+\addbibresource{Order Formula.bib}
+
 \begin{document}
 	\maketitle
+	
+	\tableofcontents
+	
 	
 	\section{Introduction}
 	
@@ -62,162 +70,124 @@
 		for $p$ and odd prime, $k$ a natural number and $k_p(n)$ a special function.
 	\end{pg}
 	
-	\section{Notes about the proof}
+	\section{Proving the Order Formula}
 	
 	\begin{pg}
-		
-		\begin{equation*}
-			Ψ_l(n) \coloneq \ordmult{l}(n)
-		\end{equation*}
-		
-		\begin{equation*}
-			n^{Ψ_{p^k}(n)} = 1 \pmod{p^k}
-		\end{equation*}
-		\begin{equation*}
-			n^{Ψ_{p^k}(n)} = 1 \pmod{p}
-		\end{equation*}
-		Meaning that $Ψ_p(n) \mid Ψ_{p^k}(n)$.
+		This first proof only targets $p≠2$. We will see a modified proof later which will clarify the situation for $p=2$.
 	\end{pg}
 	\begin{pg}
-		We know that
+		Before we tackle the formula directly, we should start by understanding $\ringunitsb{ℤ/p^kℤ}$.
+	\end{pg}
+	\begin{pg}
+		We know from Gauss' work that the group $\ringunitsb{ℤ/p^kℤ}$ is cyclic \cite{gauss}, meaning that
 		\begin{equation*}
-			\ringunitsb{ℤ/p^kℤ} \cong \bigbarn{ℤ/(p-1)ℤ} \oplus \bigbarn{ℤ/p^{k-1}ℤ}
+			\ringunitsb{ℤ/p^kℤ} \cong ℤ/φ(p^k)ℤ
 		\end{equation*}
-		Now let
+		with $φ(p^k)$ the Euler-$φ$-Function which counts the number of coprime integers smaller than the number. The value is $φ(p^k)=(p-1)p^k$ and we get:
+		\begin{equation*}
+			\ringunitsb{ℤ/p^kℤ} \cong ℤ/(p-1)p^{k-1}ℤ
+		\end{equation*}
+	\end{pg}
+	\begin{pg}
+		Next we would like to simplify $ℤ/(p-1)p^{k-1}ℤ$ for which we can use the Chinese Remainder Theorem which tells us that for two coprime integers $a,b$ we get
+		\begin{equation*}
+			ℤ/abℤ \cong ℤ/aℤ \oplus ℤ/bℤ
+		\end{equation*}
+		Now we can write
+		\begin{equation} \label{eq:1}
+			\ringunitsb{ℤ/p^kℤ} \cong ℤ/(p-1)p^{k-1}ℤ \cong \bigbarn{ℤ/(p-1)ℤ} \oplus \bigbarn{ℤ/p^{k-1}ℤ}
+		\end{equation}
+	\end{pg}
+	\begin{pg}
+		This is still quite abstract so let's find subgroups of $\ringunitsb{ℤ/p^kℤ}$ that correspond to the summands.
+		Define the projection onto $\ringunitsb{ℤ/pℤ}$:
 		\begin{equation*}
 			π: \ringunitsb{ℤ/p^kℤ} → \ringunitsb{ℤ/pℤ}
 		\end{equation*}
+		with
 		\begin{equation*}
-			π(x) = x \pmod p
-		\end{equation*}
-		Now about the kernel we know (a subgroup!):
-		\begin{equation*}
-			\ker π = \set{ x ϵ \ringunitsb{ℤ/p^kℤ} \ : \ x = 1 \pmod p }
-		\end{equation*}
-		Now since bullshit we get:
-		\begin{equation*}
-			\ringunitsb{ℤ/p^kℤ} / \ker π \cong \ringunitsb{ℤ/pℤ}
-		\end{equation*}
-		and 
-		\begin{equation*}
-			\ker π \cong ℤ/p^{k-1}ℤ
+			π(n) = n \bmod p
 		\end{equation*}
 	\end{pg}
-	
-	\section{Proving the Order Formula}
-	
-	\subsection{Examining Simpler Groups}
 	\begin{pg}
-		We would like to simply the order in one of the multiplicative groups by recursively examining smaller and smaller subgroups. For this we should first find a recursion formula for the order in groups depending on that in a smaller group.
+		One of the interesting subgroups is
+		\begin{equation*}
+			\ker(π) = \set{n ϵ \ringunitsb{ℤ/p^kℤ}\ \mid \text{ The last digit of n is $1$}}
+		\end{equation*}
+		The order of this group is $\card{\ker(π)} = p^{k-1}$. Now since \cref{eq:1} $\ker(π)$ must lie entirely inside $ℤ/p^{k-1}ℤ$, because its order is coprime to that of $ℤ/(p-1)ℤ$. Now since
+		\begin{equation*}
+			\card{\ker(π)} = \card{ℤ/p^{k-1}ℤ}
+		\end{equation*}
+		the groups are equal and we can rephrase \cref{eq:1}:
+		\begin{equation*}
+			\ringunitsb{ℤ/p^kℤ} \cong ℤ/(p-1)ℤ \oplus \ker(π)
+		\end{equation*}
 	\end{pg}
 	\begin{pg}
-		Let $p$ be prime, $k ϵ ℕ$. Now let $n ϵ ℤ/p^{k+1}ℤ$ be an arbitrary element, we are interested in the following value:
-		\begin{equation}\label{eq:1}
-			\frac{\ordadd{p^{k+1}}(n)}{\ordadd{p^k}(n \bmod p^k)}
-		\end{equation}
-		the change of the order.
-	\end{pg}
-	
-	\begin{pg}
-		First we shall simplify the order in the quite simple group $ℤ/xℤ$:
-		\begin{lemma}\label{lemma:1}
+		Substituting $\ringunitsb{ℤ/pℤ}$ for $ℤ/(p-1)ℤ$ gives us
+		
+		\begin{lemma} Decomposition of $\ringunitsb{ℤ/p^kℤ}$
+			\label{lemma:1}
 			\begin{equation*}
-				\ordadd{x}(n) = \frac{x}{\gcd(x, n)}
-			\end{equation*}
+			\ringunitsb{ℤ/p^kℤ} \cong \ringunitsb{ℤ/pℤ} \oplus \ker(π)
+		\end{equation*}
 		\end{lemma}
-		\begin{proof}
-			We would like to show that for $t ϵ  ℕ$
-			\begin{equation*}
-				t · l \equiv 0 \pmod x ⇔ x \mid tl ⇔ \frac{x}{\gcd(x, l)} \mid t
-			\end{equation*}
-			Assume that $\frac{x}{\gcd(x, l)} \mid t$, meaning that $t = \frac{x}{\gcd(x, l)} · \square$ with $\square$ denoting an unimportant value.
-			Let us examine
-			\begin{equation*}
-				\frac{x · l}{\gcd(x, l)} = \lcm(x, l) \equiv 0 \pmod{x}
-			\end{equation*}
-			Now assume instead that $x \mid tl$:
-			\begin{equation*}
-				\frac{x}{\gcd(x, l)} \gcd(x, l) \mid tl
-			\end{equation*}
-			But since already $\gcd(x, l) \mid l$ and also $\frac{x}{\gcd(x, l)}$ and $l$ are coprime, it must be that
-			\begin{equation*}
-				\frac{x}{\gcd(x, l)} \mid t
-			\end{equation*}
-		\end{proof}
+	\end{pg}
+	
+	\subsection{Applications to the formula}
+	
+	What can we learn from \cref{lemma:1}?
+	\begin{lemma}\label{lemma:2} Multiplicativity of $\ord$
+		\begin{equation*}
+			\ordmult{p^k}(n) = \ordmult{p}(n) · \ordgroup{\ker(π)}(n)
+		\end{equation*}
+	\end{lemma}
+	
+	Which we will prove using the more general
+	
+	\begin{lrbox}{\proveLemmaThree}
+		\begin{minipage}{\textwidth}
+			\medskip
+			\begin{lemma}\label{lemma:3} Let $A, B$ be arbitrary finite groups and $(a,b) ϵ A \oplus B$
+				\begin{equation*}
+					\ordgroup{A \oplus B}(a,b) = \lcm\left(\ordgroup{A}(a),\ \ordgroup{B}(b)\right)
+				\end{equation*}
+			\end{lemma}
+			\medskip
+		\end{minipage}
+	\end{lrbox}
+	\usebox{\proveLemmaThree}
+	The proof of which will be deferred to the \nameref{sec:appendix} in \nameref{sec:proveLemmaThree}.
+	
+	\medskip
+	
+	\begin{pg}
+		Well we know that
+		\begin{equation*}
+			\ordmult{p}(n) \text{ and } \ordgroup{\ker(π)}(n) \text{ coprime}
+		\end{equation*}
+		since the orders of their respective groups is coprime. This simplifies the $\lcm$ to a product and proves \cref{lemma:2}.
 	\end{pg}
 	\begin{pg}
-		Using \cref{lemma:1} we find the following formula:
-		\begin{equation*}
-			\begin{split}
-				\ordadd{p^k}(n) &= \frac{p^k}{\gcd(p^k,n)} = p^{k - \min(k, ν_p(n))} \\
-				&= p^{k + \max(-k, -ν_p(n))} = p^{\max(0, k-ν_p(n))}
-			\end{split}
-		\end{equation*}
-		Now let us apply that to \cref{eq:1}:
-		\begin{equation*}
-			\begin{split}
-				\frac{\ordadd{p^{k+1}}(n)}{\ordadd{p^k}(n \bmod p^k)} 
-				&=
-				\frac{p^{\max(0, k+1-ν_p(n))}}
-				{p^{\max(0, k-ν_p(n \bmod p^k))}} \\
-				&=
-				p^{\max(0, k+1-ν_p(n)) - \max(0,k-ν_p(n \bmod p^k))} \\
-				&\eqcolon p^\frakc
-			\end{split}
-		\end{equation*}
+		Now all that is open is $\ordgroup{\ker(π)}(n)$.
+		We know that $\ordgroup{\ker(π)}(n) \mid p^{k-1}$
 	\end{pg}
-	\begin{pg}
-		If we write $n \eqcolon m + rp^k$, $m<p^k$, $r<p$ and $\max(0, x) \eqcolon x_+$ we can rewrite the formula for $\frakc$ like so:
-		\begin{equation*}
-			\begin{split}
-				\frakc &= {\max(0, k+1-ν_p(n)) - \max(0,k-ν_p(n \bmod p^k))} \\
-				&= \pospart{k+1-ν_p(m+rp^k)} - \pospart{k-ν_p(m)}
-			\end{split}
-		\end{equation*}
-	\end{pg}
-	\begin{pg}
-		For the values of $\frakc$ we find the following table:
-		\begin{center}
-			\begin{tabular}{c|cc}
-				& $r=0$ & $r≠0$ \\
-				\hline
-				$m=0$ & $0$ & $1$ \\
-				$m≠0$ & $1$ & $1$ \\
-			\end{tabular}
-		\end{center}
-		\begin{proof}[Proof for $m=0$ and $r=0$]
-			\begin{equation*}
-				\begin{split}
-					\frakc &= \pospart{k+1-ν_p(0+0)} - \pospart{k-ν_p(0)} \\
-					&= \pospart{k+1-∞} - \pospart{k-∞} = 0 - 0 = 0
-				\end{split}
-			\end{equation*}
-		\end{proof}
-		\begin{proof}[Proof for $m=0$ and $r≠0$]
-			\begin{equation*}
-				\begin{split}
-					\frakc &= \pospart{k+1-ν_p(rp^k)} - \pospart{k-ν_p(m)} \\
-					&= \pospart{k+1-k} - 0 = 1
-				\end{split}
-			\end{equation*}
-		\end{proof}
-		\begin{proof}[Proof for $m≠0$]
-			\begin{equation*}
-				\begin{split}
-					\frakc &= \pospart{k+1-ν_p(m+rp^k)} - \pospart{k-ν_p(m)} \\
-					&= \pospart{k+1-ν_p(m)} - \pospart{k-ν_p(m)} \\
-					&= \bigbarn{k+1-ν_p(m)} - \bigbarn{k-ν_p(m)}
-					= 1
-				\end{split}
-			\end{equation*}
-			Here we are using that
-			\begin{equation*}
-				ν_p(a) < ν_p(b) ⇒ ν_p(a+b) = ν_p(a)
-			\end{equation*}
-			and that
-			\begin{equation*}
-				0 < a < p^k ⇒ ν_p(a) < k
-			\end{equation*}
-		\end{proof}
-	\end{pg}
+	
+	\section{Appendix}\label{sec:appendix}
+	
+	\subsection{\texorpdfstring{Proof of \cref{lemma:3}}{Proof of Lemma 3}}\label{sec:proveLemmaThree}
+	
+	\usebox{\proveLemmaThree}
+	
+	\begin{proof} \rule{0pt}{0pt}\\
+		Let $o_a, o_b$ denote $\ordgroup{A}(a), \ordgroup{B}(b)$ respectively and let $o_{ab}$ denote $\ordgroup{A \oplus B}(a,b)$.
+		\begin{pg}
+			$o_a \mid o_{ab}$, since $n^{o_{ab}} = e$ (Same for $o_b$). This gives us $\lcm(o_a, o_b) \mid o_{ab}$.
+		\end{pg}
+		\begin{pg}
+			$o_{ab} \mid \lcm(o_a, o_b)$, since $(a,b)^{\lcm(o_a, o_b)} = (a^{\lcm(o_a, o_b)}, b^{\lcm(o_a, o_b)}) = (e,e)$
+		\end{pg}
+	\end{proof}
+	
+	\printbibliography
 \end{document}

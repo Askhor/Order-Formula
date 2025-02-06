@@ -41,14 +41,18 @@
 \newcommand{\bigbarn}[1]{\big({#1}\big)}
 \newcommand{\Bigbarn}[1]{\Big({#1}\Big)}
 \newcommand{\spospart}[1]{ {(#1)} _ {\rule{1.5pt}{0pt}\mathclap +} }
-\newcommand{\pospart}[1]{ {\bigbarn{#1}} _ {\mathclap +} }
+\newcommand{\pospart}[1]{{ {\bigbarn{#1}} _ {\mathclap +} }}
 \newcommand{\tritem}{\item[$\blacktriangleright$]}
 \DeclareMathOperator{\ordb}{ord}
 \newcommand{\ord}{\mathop{\ordb}\limits}
 \DeclareMathOperator{\lcm}{lcm}
 \newenvironment{pg}{
 
-}{\medskip}
+}{
+
+\medskip
+
+}
 \newcommand{\mapdefinition}[5]{
 	\begin{center}
 		\begin{tabular}{llll}
@@ -60,7 +64,9 @@
 
 \newtheorem{definition}{Definition}
 \newtheorem{lemma}{Lemma}
+
 \newsavebox{\proveLemmaThree}
+\newsavebox{\proveLemmaFive}
 
 \crefname{lemma}{Lemma}{Lemmata}
 \crefname{equation}{equation}{equations}
@@ -88,9 +94,10 @@
 	\begin{pg}
 		This first proof only targets $p≠2$. We will see a modified proof later which will clarify the situation for $p=2$.
 	\end{pg}
-	\begin{pg}
-		Before we tackle the formula directly, we should start by understanding $\ringunitsb{ℤ/p^kℤ}$.
-	\end{pg}
+	Before we tackle the formula directly, we should start by understanding $\ringunitsb{ℤ/p^kℤ}$.
+	
+	\subsection{\texorpdfstring{Decomposition of $\ringunitsb{ℤ/p^kℤ}$}{Decomposition of the multiplicative group}}
+	
 	\begin{pg}
 		We know from Gauss' work that the group $\ringunitsb{ℤ/p^kℤ}$ is cyclic \cite{gauss}, meaning that
 		\begin{equation*}
@@ -170,7 +177,7 @@
 		\end{minipage}
 	\end{lrbox}
 	\usebox{\proveLemmaThree}
-	The proof of which will be deferred to the \nameref{sec:appendix} in \nameref{sec:proveLemmaThree}.
+	The proof of which will be deferred to the \nameref{sec:appendix} in \cref{sec:proveLemmaThree}.
 	
 	\medskip
 	
@@ -188,7 +195,7 @@
 				k_p(n) \coloneq \max\set{ i ϵ ℕ : n \equiv 1 \pmod{p^i} }
 			\end{equation*}
 		\end{definition}
-		This is almost the function from \cref{sec:intro}, but with a reduced domain. Now we can prove
+		This is almost the function from the \nameref{sec:intro}, but with a reduced domain. Now we can prove
 		\begin{lemma}\label{lemma:4} For $p$ prime and $n ϵ \ker(π_k)$ %(as a reminder $\ker(π_k) \subset \ringunitsb{ℤ/p^kℤ}$)
 			\begin{equation*}
 				\ordker{π_k}(n) = p^{\max(0, k - k_p(n))}
@@ -200,28 +207,72 @@
 		\end{equation*}
 	\end{pg}
 	
-	\begin{proof}[Proof by induction over $k$.] \rule{0pt}{0pt} \\
-		\begin{pg}
-			For $1 ≤ k ≤ k_p(n)$: $p^{k-k_p(n)} = 1$. And since $n \equiv 1 \pmod {p^{k_p(n)}}$: ${\ord(n)=1}$.
-		\end{pg}
-		\begin{pg}
-			\begin{samepage}
-				For the induction it will be helpful to define the following map:
-				\mapdefinition{ψ}{\ker(π_{k+1})}{\ker(π_k)}{l}{l \bmod p^k}
-			\end{samepage}
-			Now assume that $k ≥ k_p(n)$ and $\ord(n) = p^{\pospart{k-k_p(n)}}$. Now let us show the following relation:
+	In the proof of this formula we will be using
+	
+	\begin{lrbox}{\proveLemmaFive}
+		\begin{minipage}{\textwidth}
+			\medskip
+			\begin{lemma}\label{lemma:5} $n,l ϵ ℕ$, then
+				\begin{equation*}
+					\ordadd{l}(n) = \frac{l}{\gcd(n, l)}
+				\end{equation*}
+			\end{lemma}
+			\medskip
+		\end{minipage}
+	\end{lrbox}
+	\usebox{\proveLemmaFive}
+	
+	This lemma will again be proven in the \nameref{sec:appendix} in \cref{sec:proveLemmaFive}.
+	
+	\begin{pg}
+		Now this lemma only deals with the additive group $ℤ/p^kℤ$ so let us start here by proving
+		\begin{equation} \label{eq:2}
+			\ord(t) = p^{k-k_p'(t)} 
+		\end{equation}
+		with the function $k_p'$ the equivalent of $k_p$ for the additive group
+		\begin{equation*}
+			k_p'(t) \coloneq \max\set{ i ϵ ℕ : t \equiv 0 \pmod{p^i} }
+		\end{equation*}
+	\end{pg}
+	\begin{pg}
+		To prove \cref{eq:2} we can do a simple calculation ($ν_p$ denotes the $p$-adic valuation):
+		\begin{equation*}
+			\begin{split}
+				\ord(t) &\stackrel{\ref{lemma:5}}{=} \frac{p^k}{\gcd(p^k, t)} = \frac{p^k}{p^{\min(k, ν_p(t))}}\\
+				&= p^{k-\min(k, ν_p(t))} = p^{k+\max(-k, -ν_p(t))}  \\
+				&= p^{\max(0,k-ν_p(t))} = p^\pospart{k-ν_p(t)} \\
+			\end{split}
+		\end{equation*}
+	\end{pg}
+	\begin{pg}
+		But how do we translate \cref{eq:2} to the multiplicative group and \cref{lemma:4}?
+		\begin{lemma}\label{lemma:6} Given the isomorphism
+			\mapdefinition{ι}{ℤ/p^{k-1}ℤ}{\ker(π_k)}{l}{g^l}
+			and $t ϵ \ker(π_k)$:
 			\begin{equation*}
-				\ordker{π_{k+1}}(n) = p · \ordker{π_k}(n)
-			\end{equation*}
+				k_p(t) = k_p'(ι\inv(t))
+			\end{equation*}	
+		\end{lemma}
+		\begin{proof} We want to show the equality by proving that any exponent—in the set over which $k_p$ is the maximum of—is also a valid exponent for $k_p'$ (and vice versa)
+			\begin{pg}
+				Let $t ϵ \ker(π_k)$ and $i ϵ ℕ$ with $t \equiv 1 \pmod p^i$
+			\end{pg}
+			\begin{pg}
+				Now $ι$ restricts to an isomorphism $ι': ℤ/p^{i-1}ℤ → \ker(π_i)$. Since neutral elements are mapped to neutral elements by isomorphisms we get
+				\begin{equation*}
+					ι\inv(t) \equiv 0 \pmod{p^{i-1}}
+				\end{equation*}
+			\end{pg}
+			This proof also works with $k_p$ and $k_p'$ switched, giving us the equality.
+		\end{proof}
+	\end{pg}
+	\begin{pg}
+		\begin{proof}[Proof of \cref{lemma:4}]
 			\begin{equation*}
-				Λ_k \coloneq ℤ/p^kℤ
+				\ordker{π_k}(n) = \ordadd{p^{k-1}}(ι\inv(n)) \stackrel{\ref{eq:2}}{=} p^{k-k_p'(ι\inv(n))} \stackrel{\ref{lemma:6}}{=} p^{k-k_p(n)}
 			\end{equation*}
-			\mapdefinition{λ_k}{Λ_k}{ker(π_k)}{l}{g^l}
-			\begin{equation*}
-				\ordker{π_{k+1}}(n) = p^{k+1 - ν_p(n)} = p · p^{k - ν_p(n)} = \ordker{π_k}(n)
-			\end{equation*}
-		\end{pg}
-	\end{proof}
+		\end{proof}
+	\end{pg}
 	
 	\section{Appendix}\label{sec:appendix}
 	
@@ -239,20 +290,18 @@
 		\end{pg}
 	\end{proof}
 	
-	\subsection{Unused proof}
+	\subsection{\texorpdfstring{Proof of \cref{lemma:5}}{Proof of Lemma 5}}\label{sec:proveLemmaFive}
 	
-		\begin{pg}
-		To prove \cref{lemma:4} we will first show the easier inequality
+	\usebox{\proveLemmaFive}
+	
+	\begin{proof}
+		A number $x$ is equal to $\ord(n)$ exactly if it is the smallest number such that $l \mid nx$. Now $n · \ord(n) = \lcm(n, l)$. The smallest multiple of $n$ that is divisible by $l$.
+		Now calculate
 		\begin{equation*}
-			\ordker{π}(n) ≤ p^{\pospart{k-k_p(n)}}
+			n · \frac{l}{\gcd(n,l)} = \frac{nl}{\gcd(n,l)} = \lcm(n,l)
 		\end{equation*}
-		\begin{proof} Let $n \equiv 1 \pmod {p^{k_p(n)}}$ \\
-			$\ord(n)$ in $\ker(π)$ is the number of distinct elements in the subgroup generated by $n$, well but how many elements can be generated by $n$? Well for all $η = n^l$ we know that $η \equiv 1 \pmod{p^{	{k_p(n)}}}$. However we also have
-			\begin{equation*}
-				\card{\set{η ϵ \ringunitsb{ℤ/p^kℤ} : η \equiv 1 \pmod{p^{k_p(n)}} }} = p^{k-k_p(n)}
-			\end{equation*}
-		\end{proof}
-	\end{pg}
+		telling us that $\frac{l}{\gcd(n,l)} = \ord(n)$
+	\end{proof}
 	
 	\printbibliography
 \end{document}

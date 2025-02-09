@@ -64,6 +64,7 @@
 
 \newtheorem{definition}{Definition}
 \newtheorem{lemma}{Lemma}
+\newtheorem{theorem}{Theorem}
 
 \newsavebox{\proveLemmaThree}
 \newsavebox{\proveLemmaFive}
@@ -89,11 +90,12 @@
 		for $p$ and odd prime, $k$ a natural number and $k_p(n)$ a special function.
 	\end{pg}
 	
-	\section{Proving the Order Formula}
+	\section{Proving the Order Formula} \label{sec:proof}
 	
 	\begin{pg}
 		This first proof only targets $p≠2$. We will see a modified proof later which will clarify the situation for $p=2$.
 	\end{pg}
+	
 	Before we tackle the formula directly, we should start by understanding $\ringunitsb{ℤ/p^kℤ}$.
 	
 	\subsection{\texorpdfstring{Decomposition of $\ringunitsb{ℤ/p^kℤ}$}{Decomposition of the multiplicative group}}
@@ -189,7 +191,7 @@
 		since the orders of their respective groups is coprime. This simplifies the $\lcm$ to a product and proves \cref{lemma:2}. ($a,b$ coprime integers implies that $\lcm(a,b) = ab$)
 	\end{pg}
 	\begin{pg}
-		Now all that is open is $\ordker{π_k}(n)$, for this we will need the following definition:
+		Now all that remains open is $\ordker{π_k}(n)$, for this we will need the following definition:
 		\begin{definition} For $p$ prime and $n ϵ \ker(π_k)$, meaning that $n \equiv 1 \pmod p$
 			\begin{equation*}
 				k_p(n) \coloneq \max\set{ i ϵ ℕ : n \equiv 1 \pmod{p^i} }
@@ -269,9 +271,44 @@
 	\begin{pg}
 		\begin{proof}[Proof of \cref{lemma:4}]
 			\begin{equation*}
-				\ordker{π_k}(n) = \ordadd{p^{k-1}}(ι\inv(n)) \stackrel{\ref{eq:2}}{=} p^{k-k_p'(ι\inv(n))} \stackrel{\ref{lemma:6}}{=} p^{k-k_p(n)}
+				\ordker{π_k}(n)
+					 = \ordadd{p^{k-1}}(ι\inv(n)) 
+					 \stackrel{\ref{eq:2}}{=} p^\pospart{k-k_p'(ι\inv(n))} 
+					 \stackrel{\ref{lemma:6}}{=} p^\pospart{k-k_p(n)}
 			\end{equation*}
 		\end{proof}
+	\end{pg}
+	\begin{pg}
+		Now we have almost proved the order formula, all that is missing is the $k_p$ function for all natural numbers:
+		\begin{definition} Generalized $k_p$ function
+			\begin{equation*}
+				k_p(n) \coloneq \max\set{ i ϵ ℕ : n^{θ(n)} \equiv 1 \pmod{p^i} } = k_p(n^{θ(n)})
+			\end{equation*}
+			with
+			\begin{equation*}
+				θ(n) \coloneq \ordmult{p}(π_k(n))
+			\end{equation*}
+		\end{definition}
+	\end{pg}
+	\begin{pg}
+		Now we can finish the proof of the formula by calculation:
+		\begin{equation*}
+			\begin{split}
+				\ordmult{p^k}(n) &= θ(n) · \ordmult{p^k}({n^{θ(n)}}) = θ(n) · p^\pospart{k-k_p(n^{θ(n)})} \\ 
+				&= θ(n) · p^\pospart{k-k_p(n)} = \ordmult{p}(n) · p^\pospart{k-k_p(n)}
+			\end{split}
+		\end{equation*}
+	\end{pg}
+	
+	\section{Proving the Order Formula for \texorpdfstring{$p=2$}{p=2}}
+	
+	\begin{pg}
+		This proof really is almost the same as that in \cref{sec:proof}, the only difference lies in the structure of $\ringunitsb{ℤ/p^kℤ}$. While $\ringunitsb{ℤ/p^kℤ}$ is cyclic for $p≠2$, it is semicyclic for $p=2$, it has two generators. (semicyclic for $k≥3$)
+	\end{pg}
+	
+	\begin{pg}
+		For the decomposition we define
+		\mapdefinition{π}{ℤ/2^kℤ}{ℤ/4ℤ}{n}{n \bmod 4}
 	\end{pg}
 	
 	\section{Appendix}\label{sec:appendix}

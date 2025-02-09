@@ -532,7 +532,7 @@
 		\begin{equation*}
 			ν_p(q^{ν_q(n)+1} - 1)
 		\end{equation*}
-		with $q,p$ prime and $nϵℕ$.
+		with $q≠p$ prime and $nϵℕ$.
 		Let $k$ equal the expression. Then we know that $q^{ν_q(n)+1} \equiv 1 \pmod{p^k}$. We can actually write $k$ as the maximum of all $k$ with this property:
 		\begin{equation*}
 			ν_p(q^{ν_q(n)+1}-1) = \max\set{kϵℕ : q^{ν_q(n)+1} \equiv 1 \pmod{p^k}}
@@ -582,6 +582,28 @@
 			\end{split}
 		\end{equation*}
 	\end{pg}
+	\begin{pg}
+		If $θ_2(n) \nmid ν_q(n) + 1$, then
+		\begin{equation*}
+			ν_2(q^{ν_q(n)+1} - 1) = 1
+		\end{equation*}
+		as $q$ is odd. If instead $θ_2(n) \mid ν_q(n) + 1$:
+		\begin{equation*}
+			ν_2(q^{ν_q(n)+1} - 1) = k_2(n) + ν_2(ν_q(n) + 1)			
+		\end{equation*}
+	\end{pg}
+	\begin{pg}
+		Now for the result of this section:
+		\begin{lemma}\label{lemma:5.1} Let $p≠q$ prime and $nϵℕ$
+			\begin{equation*}
+				ν_p(q^{ν_q(n)+1} - 1) = 
+				\begin{cases}
+					k_p(n) + ν_p(ν_q(n) + 1)  & \text{if } θ_p(n) \mid ν_q(n) + 1 \\
+					δ_{p,2} & \text{if } θ_p(n) \nmid ν_q(n) + 1 \\
+				\end{cases}
+			\end{equation*}
+		\end{lemma}
+	\end{pg}
 	
 	\section{Applications to the perfect numbers}
 	
@@ -609,6 +631,31 @@
 			\end{center}
 		\end{definition}
 	\end{pg}
+	
+	\subsection{The \texorpdfstring{$Ξ$}{Ξ}-Function}
+	
+	\begin{definition} The $Ξ$-Function:
+		\begin{equation*}
+			Ξ_n(q,p) \coloneq 
+			\begin{cases}
+				k_p(n) + ν_p(ν_q(n) + 1) - ν_p(q-1) & \text{if } θ_p(n) \mid ν_q(n) + 1 \\
+				δ_{p,2} & \text{if } θ_p(n) \nmid ν_q(n) + 1 \\
+			\end{cases}
+		\end{equation*}
+	\end{definition}
+	There is an implicit $-νp(q-1)$ in the lower case, which is however zero if $θ_p(n) \nmid ν_q(n) + 1$.
+	Now we get
+	\begin{equation*}
+		Ξ_n(q,p) = ν_p\left( \frac{p^{ν_q(n)+1}-1}{q-1} \right)
+	\end{equation*}
+	which relates it to $σ_1$:
+	\begin{equation*}
+		\begin{split}
+			ν_p(σ_1(n)) &= ν_p\left(  \prod_{q \text{ prime}} \frac{q^{ν_q(n)+1}-1}{q-1} \right) \\
+			&= Σ_{q \text{ prime}} ν_p\left( \frac{p^{ν_q(n)+1}-1}{q-1} \right) \\
+			&= Σ_{q \text{ prime}} Ξ_n(q,p)
+		\end{split}
+	\end{equation*}
 	
 	\section{Appendix}\label{sec:appendix}
 	

@@ -493,7 +493,7 @@
 	\begin{samepage}
 		\section{The Order Formula}
 		
-		\begin{theorem}
+		\begin{theorem}[The Order Formula]\label{theformula}
 		For $p$ prime and $k,nϵℕ$ the following equation holds:
 		\begin{equation*}
 			\ordmult{p^k}(n) = 
@@ -524,6 +524,91 @@
 		\end{equation*}
 	\end{theorem}
 	\end{samepage}
+	
+	\section{An interesting simplification}
+	
+	\begin{pg}
+		In this section we will try to simplify the following expression (which will be relevant for perfect numbers):
+		\begin{equation*}
+			ν_p(q^{ν_q(n)+1} - 1)
+		\end{equation*}
+		with $q,p$ prime and $nϵℕ$.
+		Let $k$ equal the expression. Then we know that $q^{ν_q(n)+1} \equiv 1 \pmod{p^k}$. We can actually write $k$ as the maximum of all $k$ with this property:
+		\begin{equation*}
+			ν_p(q^{ν_q(n)+1}-1) = \max\set{kϵℕ : q^{ν_q(n)+1} \equiv 1 \pmod{p^k}}
+		\end{equation*}
+		Why? Because the condition must hold for all smaller $k$ and also the actual $k$ (the expression) must be at least as large as any of the admissible $k$.
+	\end{pg}
+	\begin{pg}
+		Now let us rewrite the admissibility condition (for now assume $p≠2$):
+		\begin{equation*}
+			\begin{split}
+				q^{ν_q(n)+1} \equiv 1 \pmod{p^k} &⇔ \ord(q) \mid ν_q(n) + 1 \\
+				&⇔ θ_p(n) · p^\pospart{k-k_p(n)} \mid ν_q(n) + 1 \\
+				&⇔ θ_p(n) \mid ν_q(n) + 1 ∧ p^\pospart{k-k_p(n)} \mid ν_q(n) + 1 \\
+			\end{split}
+		\end{equation*}
+		Let us continue with the right side of the $∧$:
+		\begin{equation*}
+			\begin{split}
+				p^\pospart{k-k_p(n)} \mid ν_q(n) + 1 &⇔ \pospart{k-k_p(n)}\ ≤\ ν_p(ν_q(n) + 1) \\
+				&⇔ k-k_p(n)\ ≤\ ν_p(ν_q(n)+1)
+			\end{split}
+		\end{equation*}
+		Now if $θ_p(n) \nmid ν_q(n)+1$ we get
+		\begin{equation*}
+			ν_p(q^{ν_q(n)+1} - 1) = 0
+		\end{equation*}
+		as this is the only $k$ where \nameref{theformula} does not apply.
+		Now assuming that $θ_p(n) \mid ν_q(n)+1$:
+		\begin{equation*}
+			ν_p(q^{ν_q(n)+1}-1) = k_p(n) + ν_p(ν_q(n) + 1)
+		\end{equation*}
+		as this is the last $k$ such that the inequality holds.
+	\end{pg}
+	\begin{pg}
+		Let's rewrite the condition for $p=2$:
+		\begin{equation*}
+			\begin{split}
+				q^{ν_q(n)+1} \equiv 1 \pmod{p^k} &⇔ \ord(q) \mid ν_q(n) + 1 \\
+				&⇔ \lcm\Bigl( α_k · θ_p(n), 2^\pospart{k-k_2(n)} \Bigr) \mid ν_q(n) + 1 \\
+				&⇔ α_k · θ_p(n) \mid ν_q(n) + 1 ∧ 2^\pospart{k-k_2(n)} \mid ν_q(n) + 1 \\
+			\end{split}
+		\end{equation*}
+		Again continuing with the right side of the $∧$:
+		\begin{equation*}
+			\begin{split}
+				2^\pospart{k-k_2(n)} \mid ν_q(n) + 1 &⇔ k-k_2(n) ≤ ν_2(ν_q(n) + 1)
+			\end{split}
+		\end{equation*}
+	\end{pg}
+	
+	\section{Applications to the perfect numbers}
+	
+	\subsection{A quick introduction}
+	
+	\begin{pg}
+		\begin{definition}
+			\begin{equation*}
+				σ_t(n) = Σ_{x \mid n} x^t
+			\end{equation*}
+		\end{definition}
+		
+		\begin{lemma} For $t≠0$
+			\begin{equation*}
+				σ_t(n) = \prod_{p \text{ prime}} \frac{p^{(ν_p(n) + 1)t} - 1}{p^t - 1}
+			\end{equation*}
+		\end{lemma}
+		This is a result from \cite{hardy2008}.
+	\end{pg}
+	
+	\begin{pg}
+		\begin{definition} Perfect number.
+			\begin{center}
+				$n$ is perfect if $2n = σ_1(n)$
+			\end{center}
+		\end{definition}
+	\end{pg}
 	
 	\section{Appendix}\label{sec:appendix}
 	

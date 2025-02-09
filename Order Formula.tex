@@ -28,13 +28,19 @@
 }
 \setlength{\parindent}{0pt}
 
+\newlength{\halflength}
+\setlength{\halflength}{100pt}
+
 \newcommand{\card}[1]{\#{#1}}
 \newcommand{\inv}{^{-1}}
 \newcommand{\ringunits}[1]{{#1}^{\mathclap{\rule{2.5pt}{0pt}\times}\rule{0.2em}{0pt}}}
-\newcommand{\ringunitsb}[1]{\ringunits{\left(#1\right)}}
-\newcommand{\ordgroup}[1]{\ord_{\rule{0pt}{8pt}\mathclap{#1}}}
+\newcommand{\ringunitsb}[1]{\ringunits{\left({#1}{\vphantom{p^k}}\right)}}
+\newcommand{\ordgroup}[1]{\ord_{\rule{0pt}{9pt}\mathclap{#1}}}
 \newcommand{\ordadd}[1]{\ordgroup{ℤ/{#1}ℤ}}
-\newcommand{\ordmult}[1]{\ord_{\rule{0pt}{8pt}{\mathclap{\ringunitsb{ℤ/{#1}ℤ}}}}}
+\newcommand{\ordmult}[1]{\ord_{\rule{0pt}{8pt}{
+			\settowidth{\halflength}{$\scriptstyle \left({ℤ/{#1}ℤ}{\vphantom{p^k}}\right)$}
+			\mathrlap{\rule{-0.5 \halflength}{0pt}\ringunitsb{ℤ/{#1}ℤ}}
+}}}
 \newcommand{\ordker}[1]{\ordgroup{\ker(\mathrlap{#1)}}}
 \newcommand{\frakB}{\mathfrak{B}}
 \newcommand{\frakc}{\mathfrak{c}}
@@ -43,6 +49,7 @@
 \newcommand{\spospart}[1]{ {(#1)} _ {\rule{1.5pt}{0pt}\mathclap +} }
 \newcommand{\pospart}[1]{{ {\bigbarn{#1}} _ {\mathclap +} }}
 \newcommand{\tritem}{\item[$\blacktriangleright$]}
+\newcommand{\gspan}[1]{<#1>}
 \DeclareMathOperator{\ordb}{ord}
 \newcommand{\ord}{\mathop{\ordb}\limits}
 \DeclareMathOperator{\lcm}{lcm}
@@ -63,7 +70,7 @@
 }
 
 \newtheorem{definition}{Definition}
-\newtheorem{lemma}{Lemma}
+\newtheorem{lemma}{Lemma}[section]
 \newtheorem{theorem}{Theorem}
 
 \newsavebox{\proveLemmaThree}
@@ -71,6 +78,8 @@
 
 \crefname{lemma}{Lemma}{Lemmata}
 \crefname{equation}{equation}{equations}
+\crefname{theorem}{Theorem}{Theorems}
+\crefname{definition}{Definition}{Definitions}
 
 \addbibresource{Order Formula.bib}
 
@@ -98,7 +107,7 @@
 	
 	Before we tackle the formula directly, we should start by understanding $\ringunitsb{ℤ/p^kℤ}$.
 	
-	\subsection{\texorpdfstring{Decomposition of $\ringunitsb{ℤ/p^kℤ}$}{Decomposition of the multiplicative group}}
+	\subsection{Decomposition of \texorpdfstring{$\ringunitsb{ℤ/p^kℤ}$}{the multiplicative group}}
 	
 	\begin{pg}
 		We know from Gauss' work that the group $\ringunitsb{ℤ/p^kℤ}$ is cyclic \cite{gauss}, meaning that
@@ -280,7 +289,7 @@
 	\end{pg}
 	\begin{pg}
 		Now we have almost proved the order formula, all that is missing is the $k_p$ function for all natural numbers:
-		\begin{definition} Generalized $k_p$ function
+		\begin{definition}\label{def:2} Generalized $k_p$-function
 			\begin{equation*}
 				k_p(n) \coloneq \max\set{ i ϵ ℕ : n^{θ(n)} \equiv 1 \pmod{p^i} } = k_p(n^{θ(n)})
 			\end{equation*}
@@ -305,6 +314,216 @@
 	\begin{pg}
 		This proof really is almost the same as that in \cref{sec:proof}, the only difference lies in the structure of $\ringunitsb{ℤ/p^kℤ}$. While $\ringunitsb{ℤ/p^kℤ}$ is cyclic for $p≠2$, it is semicyclic for $p=2$, it has two generators. (semicyclic for $k≥3$)
 	\end{pg}
+	
+	\subsection{Decomposition of \texorpdfstring{$\ringunitsb{ℤ/2^kℤ}$}{the multiplicative group for p=2}}
+	
+	\begin{pg}
+		In this subsection $k$ should be assumed to be at least $3$.
+	\end{pg}
+	\begin{pg}
+		Let us begin by finding an element of maximal order in $\ringunitsb{ℤ/2^kℤ}$:
+		\begin{lemma}\label{lemma:3.1}
+			\begin{equation*}
+				\ordmult{2^k}(3) = 2^{k-2}
+			\end{equation*}
+		\end{lemma}
+		\begin{proof}[Proof by Induction] \rule{0pt}{0pt} \\
+			\begin{pg}
+				For $k=3$ we can do a simple computation which tells us that ${\ord(3) = 2 = 2^{k-2}}$. 
+			\end{pg}
+			\begin{pg}
+				Now assume that $\ord(3) = 2^{k-2}$ in $\ringunitsb{ℤ/2^kℤ}$. Let us try to calculate ${3^{(2^{k-2})} \bmod 2^{k+1}}$: It is either $1$ or $2^k + 1$ as it must be $\equiv 1 \pmod{2^k}$. We can show that it is $2^k + 1$ by proving
+				\begin{equation}\label{eq:3}
+					ν_2(3^{(2^{k-2})}-1) = k - 1
+				\end{equation}
+				If instead the value was $1$ the valuation would be larger.
+			\end{pg}
+			\begin{pg}
+				We will prove \cref{eq:3} by induction. For $k=2$ we get
+				\begin{equation*}
+					ν_2(3^2 - 1) = ν_2(2) = 1 = 2 - 1
+				\end{equation*}	
+			\end{pg}
+			\begin{pg}
+				Now assuming that \cref{eq:3} holds for $k$ let us compute the value for $k+1$:
+				\begin{equation*}
+					\begin{split}
+						ν_2\left(3^{(2^{k-1})} - 1\right) 
+						&= ν_2\left(  (3^{(2^{k-2})})^2  -  1^2  \right) \\
+						&= ν_2\left(  (3^{(2^{k-2})} - 1)(3^{(2^{k-2})} + 1)  \right) \\
+						&= ν_2\left(  3^{(2^{k-2})} - 1  ) + ν_2(  3^{(2^{k-2})} + 1  \right) \\
+						&= k - 1 + 1 = k \text{ assuming the right addend is $1$}						
+					\end{split}
+				\end{equation*}
+				Now to prove that
+				\begin{equation*}
+					ν_2(  3^{(2^{k-2})} + 1) = 1
+				\end{equation*}
+				we will simply compute
+				\begin{equation*}
+					\begin{split}
+						3^{(2^{k-2})} + 1 &\equiv (3²)^{(2^{k-3})} + 1 \pmod 4 \\
+						&\equiv 1^{(2^{k-3})} + 1 \equiv 1 + 1 \equiv 2
+					\end{split}
+				\end{equation*}
+			\end{pg}
+		\end{proof}
+	\end{pg}
+	\begin{pg}
+		Next we will prove
+		\begin{lemma} \label{lemma:3.2}
+			$\set{-1, 3}$ is a generating set of $\ringunitsb{ℤ/2^kℤ}$
+		\end{lemma}
+		\begin{proof}
+			We know from \cref{lemma:3.1} that
+			\begin{equation*}
+				2 · \ord(3) = 2^{k-1} = \card{\ringunitsb{ℤ/2^kℤ}}
+			\end{equation*}
+			We also know that
+			\begin{equation*}
+				\begin{split}
+					3^l
+					\equiv
+					\begin{cases}
+						1 & \text{if } l \bmod 2 = 0 	\\
+						3 & \text{if } l \bmod 2 = 1	\\
+					\end{cases} & \pmod 8
+				\end{split}
+			\end{equation*}
+			meaning that $3^l \not\equiv -1 \pmod {2^k}$: $-1$ is not an element of $\gspan 3$, so the group $< -1, 3>$ must have $\ord(-1) · \ord(3) = 2^{k-1}$ elements and must be equal to the entire group.
+		\end{proof}
+		Now we can write
+		\begin{equation}\label{eq:4}
+			\ringunitsb{ℤ/2^kℤ} \cong \gspan{-1} \oplus \gspan{3}
+		\end{equation}
+	\end{pg}
+	\begin{pg}
+		However for the decomposition we would like a different form, like in \cref{lemma:1}.
+		Define
+		\mapdefinition{π_k}{\ringunitsb{ℤ/2^kℤ}}{\ringunitsb{ℤ/4ℤ}}{n}{n \bmod 4}
+	\end{pg}
+	\begin{pg}
+		\begin{lemma}\label{lemma:3.3} Decomposition of $\ringunitsb{ℤ/2^kℤ}$ (for $k≥3$)
+			\begin{equation*}
+				\ringunitsb{ℤ/2^kℤ} \cong \ringunitsb{ℤ/4ℤ} \oplus \ker(π_k)
+			\end{equation*}
+		\end{lemma}
+		\begin{proof}
+			\begin{equation*}
+				\ringunitsb{ℤ/4ℤ} \cong ℤ/2ℤ \cong \gspan{-1}
+			\end{equation*}
+			For $\ker(π_k)$ we will show that $\gspan{-3} \triangleleft \ker(π_k)$ and $\card{\gspan{-3}} = \card{\ker(π_k)}$:
+			\begin{equation*}
+				π_k(-3) 
+				\equiv -1 · 3 
+				\equiv -1 · -1 
+				\equiv 1 \pmod 4
+			\end{equation*}
+			Now also all powers of $-3$ will be in the kernel.
+			\begin{equation*}
+				\begin{split}
+					\card{\gspan{-3}} &= \ord(-3) = \lcm(\ord(-1), \ord(3)) \\
+					&= 2^{k-2} = \card{\ker(π_k)}
+				\end{split}
+			\end{equation*}
+		\end{proof}
+	\end{pg}
+	
+	\subsection{Discussing the remaining proof}
+	
+	\begin{pg}
+		The proof that remains is entirely equivalent to the one from \cref{sec:proof}, so only an outline of the revised version will be given.
+	\end{pg}
+	\begin{pg}
+		\cref{lemma:3.3} together with \cref{lemma:3} gives us the following formula:
+		\begin{equation*}
+			\ordmult{2^k}(n) = \lcm\left(\quad \ordmult{4}(n),\ \ordker{π_k}(n)\quad \right)
+		\end{equation*}
+		This does not—unlike \cref{lemma:2}—simplify into a product.
+	\end{pg}
+	\begin{pg}
+		Now all steps until \cref{def:2} will translate naturally (not in the category-theoretic sense). In the definition of $k_2$ we must replace $θ$:
+		\begin{definition} Generalized $k_2$-function
+			\begin{equation*}
+				k_p(n) \coloneq \max\set{ i ϵ ℕ : n^{θ(n)} \equiv 1 \pmod{p^i} } = k_p(n^{θ(n)})
+			\end{equation*}
+			with
+			\begin{equation*}
+				θ(n) \coloneq \ordmult{4}(π_k(n))
+			\end{equation*}
+		\end{definition}
+	\end{pg}
+	\begin{pg}
+		The last step that may be difficult to simply believe is the final calculation:
+		\begin{equation*}
+			\begin{split}
+				\ordmult{2^k}(n) 
+				&\stackrel{\ref{lemma:3.2}}{=}	\ordmult{2^k}((-1)^i · 3^j) \\
+				&= 								\lcm\left(\quad \ordmult{2^k}((-1)^i),\ \ordmult{2^k}(3^j)\quad \right) \\
+				&= 								\lcm\left(\quad \ordmult{4}(n),\ \ordker{π_k}(3^j)\quad \right) \\
+				&\stackrel{\ref{lemma:4}}{=} 								\lcm\left(\quad \ordmult{4}(n),\ 2^{\pospart{k - k_2(3^j)}} \quad \right) \\
+				&\stackrel{?}{=} 				\lcm\left(\quad \ordmult{4}(n),\ 2^{\pospart{k - k_2(n)}} \quad \right) \\
+			\end{split}
+		\end{equation*}
+		Now to verify that last question mark we have to show that $k_2((-1)^i · 3^j) = k_2(3^j)$ which we can do with
+		\begin{equation*}
+			k_2(3^{2j}) = k_2(3^j)
+		\end{equation*}
+		We show this by relating indices admissible for one side to those on the other side:
+		\begin{pg}
+			Let $lϵℕ$ with $3^j \equiv 1 \pmod{2^l}$, then also $3^{2j} \equiv 1$.
+		\end{pg}
+		\begin{pg}
+			Let $lϵℕ$ with $3^{2j} \equiv 1 \pmod{2^l}$, then
+			\begin{equation*}
+				3^j \equiv 
+				\begin{cases}
+					-1 \\
+					\phantom{-} 1 \\
+				\end{cases}
+			\end{equation*}
+			as those are the only square roots of $1$, however in the proof of \cref{lemma:3.2} we showed that no $3^j \equiv -1$ and hence $3^j \equiv 1$. \hfill $\square$
+		\end{pg}
+	\end{pg}
+	\begin{pg}
+		Now we have proved the order formula for $k≥3$, but the reader may verify that the formula is also valid for $k=2$. Now we can formulate the main result of this paper:
+	\end{pg}
+	
+	
+	\begin{samepage}
+		\section{The Order Formula}
+		
+		\begin{theorem}
+		For $p$ prime and $k,nϵℕ$ the following equation holds:
+		\begin{equation*}
+			\ordmult{p^k}(n) = 
+			\begin{cases}
+				\phantom{\lcm\Bigl(α_k·{}}θ_p(n) · p^\pospart{k-k_p(n)} & \text{if } p≠2 \\
+				\lcm\Bigl( α_k · θ_p(n), 2^\pospart{k-k_2(n)} \Bigr) & \text{if } p=2 \\
+			\end{cases}
+		\end{equation*}
+		with
+		\begin{equation*}
+			θ_p(n) = 
+			\begin{cases}
+				\quad \ordmult{p}(n) & \text{if } p≠2	\\
+				\quad \ordmult{4}(n) & \text{if } p=2	\\
+			\end{cases}
+		\end{equation*}
+		and
+		\begin{equation*}
+			k_p(n) \coloneq \max\set{ i ϵ ℕ : n^{θ_p(n)} \equiv 1 \pmod{p^i} }
+		\end{equation*}
+		further
+		\begin{equation*}
+			α_k =
+			\begin{cases}
+				1 & \text{if } k≠1 \\
+				\frac{1}{2} & \text{if } k=1 \\
+			\end{cases}
+		\end{equation*}
+	\end{theorem}
+	\end{samepage}
 	
 	\section{Appendix}\label{sec:appendix}
 	

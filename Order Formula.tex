@@ -436,9 +436,9 @@
 	\end{pg}
 	\begin{pg}
 		\cref{lemma:3.3} together with \cref{lemma:3} gives us the following formula:
-		\begin{equation*}
+		\begin{equation}\label{eq:5}
 			\ordmult{2^k}(n) = \lcm\left(\quad \ordmult{4}(n),\ \ordker{π_k}(n)\quad \right)
-		\end{equation*}
+		\end{equation}
 		This does not—unlike \cref{lemma:2}—simplify into a product.
 	\end{pg}
 	\begin{pg}
@@ -455,40 +455,47 @@
 	\end{pg}
 	\begin{pg}
 		The last step that may be difficult to simply believe is the final calculation:
+%		\begin{equation*}
+%			\begin{split}
+%				\ordmult{2^k}(n) 
+%				&\stackrel{\ref{lemma:3.2}}{=}	\ordmult{2^k}((-1)^i · 3^j) \\
+%				&= 								\lcm\left(\quad \ordmult{2^k}((-1)^i),\ \ordmult{2^k}(3^j)\quad \right) \\
+%				&\stackrel{\text{add note}}{=} 								\lcm\left(\quad \ordmult{4}(n),\ \ordker{π_k}(3^j)\quad \right) \\
+%				&\stackrel{\ref{lemma:4}}{=} 								\lcm\left(\quad \ordmult{4}(n),\ 2^{\pospart{k - k_2(3^j)}} \quad \right) \\
+%				&\stackrel{?}{=} 				\lcm\left(\quad \ordmult{4}(n),\ 2^{\pospart{k - k_2(n)}} \quad \right) \\
+%			\end{split}
+%		\end{equation*}
 		\begin{equation*}
 			\begin{split}
-				\ordmult{2^k}(n) 
-				&\stackrel{\ref{lemma:3.2}}{=}	\ordmult{2^k}((-1)^i · 3^j) \\
-				&= 								\lcm\left(\quad \ordmult{2^k}((-1)^i),\ \ordmult{2^k}(3^j)\quad \right) \\
-				&\stackrel{\text{add note}}{=} 								\lcm\left(\quad \ordmult{4}(n),\ \ordker{π_k}(3^j)\quad \right) \\
-				&\stackrel{\ref{lemma:4}}{=} 								\lcm\left(\quad \ordmult{4}(n),\ 2^{\pospart{k - k_2(3^j)}} \quad \right) \\
-				&\stackrel{?}{=} 				\lcm\left(\quad \ordmult{4}(n),\ 2^{\pospart{k - k_2(n)}} \quad \right) \\
+				\ordmult{2^k}(n) 	\stackrel{\ref{eq:5}}{=}&		\lcm\left(\quad \ordmult{4}(n),\ \ordker{π_k}(n)\quad \right) \\
+									\stackrel{\ref{lemma:4}}{=}& 	\lcm\left(\quad \ordmult{4}(n),\ 2^{\pospart{k - k_2(n)}} \quad \right) \\
 			\end{split}
 		\end{equation*}
-		Now to verify that last question mark we have to show that $k_2((-1)^i · 3^j) = k_2(3^j)$ which we can do with
-		\begin{equation*}
-			k_2(3^{2j}) = k_2(3^j)
-		\end{equation*}
-		We show this by relating indices admissible for one side to those on the other side:
-		\begin{pg}
-			Let $lϵℕ$ with $3^j \equiv 1 \pmod{2^l}$, then also $3^{2j} \equiv 1$.
-		\end{pg}
-		\begin{pg}
-			Let $lϵℕ$ with $3^{2j} \equiv 1 \pmod{2^l}$, then
-			\begin{equation*}
-				3^j \equiv 
-				\begin{cases}
-					-1 \\
-					\phantom{-} 1 \\
-				\end{cases}
-			\end{equation*}
-			as those are the only square roots of $1$, however in the proof of \cref{lemma:3.2} we showed that no $3^j \equiv -1$ and hence $3^j \equiv 1$. \hfill $\square$
-		\end{pg}
+		
+		%Now to verify that last question mark we have to show that $k_2((-1)^i · 3^j) = k_2(3^j)$ which we can do with
+		%\begin{equation*}
+%			k_2(3^{2j}) = k_2(3^j)
+%		\end{equation*}
+%		We show this by relating indices admissible for one side to those on the other side:
+%		\begin{pg}
+%			Let $lϵℕ$ with $3^j \equiv 1 \pmod{2^l}$, then also $3^{2j} \equiv 1$.
+%		\end{pg}
+%		\begin{pg}
+%			Let $lϵℕ$ with $3^{2j} \equiv 1 \pmod{2^l}$, then
+%			\begin{equation*}
+%				3^j \equiv 
+%				\begin{cases}
+%					-1 \\
+%					\phantom{-} 1 \\
+%				\end{cases}
+%			\end{equation*}
+%			as those are the only square roots of $1$, however in the proof of \cref{lemma:3.2} we showed that no $3^j \equiv -1$ and hence $3^j \equiv 1$. \hfill $\square$
+%		\end{pg}
 	\end{pg}
 	\begin{pg}
 		Now we have proved the order formula for $k≥3$, but the reader may verify that the formula is also valid for $k=2$. Now we can formulate the main result of this paper:
 	\end{pg}
-	
+	 
 	
 	\begin{samepage}
 		\section{The Order Formula}

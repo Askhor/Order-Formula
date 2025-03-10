@@ -455,42 +455,12 @@
 	\end{pg}
 	\begin{pg}
 		The last step that may be difficult to simply believe is the final calculation:
-%		\begin{equation*}
-%			\begin{split}
-%				\ordmult{2^k}(n) 
-%				&\stackrel{\ref{lemma:3.2}}{=}	\ordmult{2^k}((-1)^i · 3^j) \\
-%				&= 								\lcm\left(\quad \ordmult{2^k}((-1)^i),\ \ordmult{2^k}(3^j)\quad \right) \\
-%				&\stackrel{\text{add note}}{=} 								\lcm\left(\quad \ordmult{4}(n),\ \ordker{π_k}(3^j)\quad \right) \\
-%				&\stackrel{\ref{lemma:4}}{=} 								\lcm\left(\quad \ordmult{4}(n),\ 2^{\pospart{k - k_2(3^j)}} \quad \right) \\
-%				&\stackrel{?}{=} 				\lcm\left(\quad \ordmult{4}(n),\ 2^{\pospart{k - k_2(n)}} \quad \right) \\
-%			\end{split}
-%		\end{equation*}
 		\begin{equation*}
 			\begin{split}
 				\ordmult{2^k}(n) 	\stackrel{\ref{eq:5}}{=}&		\lcm\left(\quad \ordmult{4}(n),\ \ordker{π_k}(n)\quad \right) \\
 									\stackrel{\ref{lemma:4}}{=}& 	\lcm\left(\quad \ordmult{4}(n),\ 2^{\pospart{k - k_2(n)}} \quad \right) \\
 			\end{split}
 		\end{equation*}
-		
-		%Now to verify that last question mark we have to show that $k_2((-1)^i · 3^j) = k_2(3^j)$ which we can do with
-		%\begin{equation*}
-%			k_2(3^{2j}) = k_2(3^j)
-%		\end{equation*}
-%		We show this by relating indices admissible for one side to those on the other side:
-%		\begin{pg}
-%			Let $lϵℕ$ with $3^j \equiv 1 \pmod{2^l}$, then also $3^{2j} \equiv 1$.
-%		\end{pg}
-%		\begin{pg}
-%			Let $lϵℕ$ with $3^{2j} \equiv 1 \pmod{2^l}$, then
-%			\begin{equation*}
-%				3^j \equiv 
-%				\begin{cases}
-%					-1 \\
-%					\phantom{-} 1 \\
-%				\end{cases}
-%			\end{equation*}
-%			as those are the only square roots of $1$, however in the proof of \cref{lemma:3.2} we showed that no $3^j \equiv -1$ and hence $3^j \equiv 1$. \hfill $\square$
-%		\end{pg}
 	\end{pg}
 	\begin{pg}
 		Now we have proved the order formula for $k≥3$, but the reader may verify that the formula is also valid for $k=2$. Now we can formulate the main result of this paper:
@@ -629,6 +599,12 @@
 			\end{equation*}
 		\end{lemma}
 		This is a result from \cite{hardy2008}.
+		
+		\begin{lemma} \label{lemma:6.2} For $t=0$
+			\begin{equation*}
+				σ_0(n) = \prod_{p \text{ prime}} (ν_p(n) + 1)
+			\end{equation*}
+		\end{lemma}
 	\end{pg}
 	
 	\begin{pg}
@@ -656,13 +632,51 @@
 		Ξ_n(q,p) = ν_p\left( \frac{p^{ν_q(n)+1}-1}{q-1} \right)
 	\end{equation*}
 	which relates it to $σ_1$:
-	\begin{equation*}
+	\begin{equation} \label{eq:6}
 		\begin{split}
 			ν_p(σ_1(n)) &= ν_p\left(  \prod_{q \text{ prime}} \frac{q^{ν_q(n)+1}-1}{q-1} \right) \\
 			&= Σ_{q \text{ prime}} ν_p\left( \frac{p^{ν_q(n)+1}-1}{q-1} \right) \\
 			&= Σ_{q \text{ prime}} Ξ_n(q,p)
 		\end{split}
-	\end{equation*}
+	\end{equation}
+	
+	\subsection{(In-)Equalities for Perfect Numbers}
+	
+	\begin{definition} The Harmonic Mean:
+		\begin{equation*}
+			H(n) = \frac{n σ_0(n)}{σ_1(n)}
+		\end{equation*}
+	\end{definition}
+	
+	\begin{definition}\label{def:8} $n$ is a Harmonic Number is an integer such that $H(n)$ is also an integer.
+	\end{definition}
+	
+	\begin{lemma}
+		All perfect numbers are Harmonic Numbers.
+	\end{lemma}
+	
+	\begin{proof}
+		Let $n$ be perfect:
+		\begin{equation*}
+			\begin{split}
+				H(n) &= \frac{nσ_0(n)}{σ_1(n)} \\
+				&= \frac{nσ_0(n)}{2n} \\
+				&= \frac{σ_0(n)}{2}	\\
+			\end{split}
+		\end{equation*}
+		However $σ_0(n)$—the number of divisors—for $n$ perfect is even.
+	\end{proof}
+	
+	We can now rephrase \cref{def:8} (using \cref{lemma:6.2} and \cref{eq:6}) to yield the equivalent:
+	\begin{equation}
+		\begin{split}
+			0 &≤ ν_p(H(n)) \\
+			&= ν_p(n) + ν_p(σ_0(n)) - ν_p(σ_1(n)) \\
+			&= ν_p(n) + Σ_{q \text{ prime}} ν_p(ν_q(n) + 1) - Σ_{q \text{prime}} Ξ_n(q,p) \\
+			&= ν_p(n) + Σ_{q \text{ prime}} \Big(ν_p(ν_q(n)+1) - Ξ_n(q,p)\Big) \\
+		\end{split}
+	\end{equation}
+
 	
 	\section{Appendix}\label{sec:appendix}
 	

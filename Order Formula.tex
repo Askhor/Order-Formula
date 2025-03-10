@@ -672,11 +672,29 @@
 		\begin{split}
 			0 &≤ ν_p(H(n)) \\
 			&= ν_p(n) + ν_p(σ_0(n)) - ν_p(σ_1(n)) \\
-			&= ν_p(n) + Σ_{q \text{ prime}} ν_p(ν_q(n) + 1) - Σ_{q \text{prime}} Ξ_n(q,p) \\
+			&= ν_p(n) + Σ_{q \text{ prime}} ν_p(ν_q(n) + 1) - Σ_{q \text{ prime}} Ξ_n(q,p) \\
 			&= ν_p(n) + Σ_{q \text{ prime}} \Big(ν_p(ν_q(n)+1) - Ξ_n(q,p)\Big) \\
 		\end{split}
 	\end{equation}
 
+	Assuming $n$ is perfect (together with another application of \cref{eq:6}):
+	\begin{equation}
+		\begin{split}
+			&= ν_p(2n) - δ_{p,2} + (\cdots) \\
+			&= Σ_{q \text{ prime}} \Big( Ξ_n(q,p) + ν_p(ν_q(n) + 1) - Ξ_n(q,p) \Big) -δ_{p,2} \\
+			&= Σ_{q \text{ prime}} ν_p(ν_q(n) + 1) - δ_{p,2} \\
+		\end{split}		
+	\end{equation}
+	Assuming $p=2$
+	\begin{equation}
+		\begin{split}
+			&= Σ_{q \text{ prime}} ν_2(ν_q(n) + 1) - 1
+		\end{split}
+	\end{equation}
+	Which is equivalent to
+	\begin{equation}
+		Σ_{q \text{ prime}} ν_2(ν_q(n) + 1) ≥ 1
+	\end{equation}
 	
 	\section{Appendix}\label{sec:appendix}
 	
